@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@200&family=Noto+Sans+TC:wght@200&display=swap');
+:root{
+    --primary-color:#000000;
+    --secondary-color:#777777;
+    --third-color:#e5e5e5;
+    --forth-color:#FFFFFF;
+    --title-color:#D8A04D;
+    --form-color:#E1DBB9;
+    --menu-color:#ca0000;
+    --text-color:#585858;
+}
+*{
+    font-family: 'Noto Sans TC', '微軟正黑體', sans-serif;
+    font-size: 16px;
+    margin:0;
+}
+.title{
+    font-family: 'Lato', 'Noto Sans TC', '微軟正黑體', sans-serif;
+    color:var(--title-color);
+}
+h1{
+    font-size:1.8em;
+    font-weight:900;
+}
+h2{
+    font-size:1.5em;
+    font-weight:900;
+}
+h3{
+    font-size:1.2em;
+    font-weight:600;
+}
+.bold{
+    font-weight:600;
+    color:var(--primary-color);
+    margin:5px 0;
+}
+.subtitle{
+    color:var(--secondary-color);
+    margin:5px 0px 20px;
+    font-size: 1em;
+    font-weight: 600;
+}
+.textdecoration{
+    text-decoration: underline;
+}
+.textDeUnderline{
+    text-decoration: none;
+}
+.label{
+    font-size:1.2em;
+    font-weight:600;
+    margin:0 0 15px;
+    color:var(--text-color);
+    text-decoration: none;
+}
+.alert{
+    font-weight: 600;
+    font-size: 1.2em;
+    color:var(--menu-color);
+}

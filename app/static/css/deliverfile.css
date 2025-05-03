@@ -1,0 +1,84 @@
+.contain{
+    background-color: var(--form-color);
+    flex-grow:1;
+    margin:0 ;
+    box-sizing: border-box;
+    padding:30px 200px;
+}
+.realInput{
+    background-color: var(--forth-color);
+    color:var(--text-color);
+    font-size: 1.2em;
+    font-family: 900;
+    border:none;
+    border-radius: 10px;
+    box-sizing: border-box;
+    display:flex;
+    flex-grow: 1;
+    flex-direction: row;
+    gap:30px;
+    align-items: center;
+    padding-left: 10px;
+    height:36px;
+    min-width: 280px;
+}
+.realInput::placeholder{
+    color:var(--title-color);
+}
+.fileUpload{
+    background-color: var(--third-color);
+    width:400px;
+    height:300px;
+    font-size: 30px;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    margin:10px 0 20px;
+}
+#travel_licence{
+    width:400px;
+    height:600px;
+}
+#shot{
+    width:200px;
+    height:280px;
+}
+.submitBTN{
+    width:500px;
+    align-items: center;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 1px 3px 0;
+    box-sizing: border-box;
+    color: rgba(0, 0, 0, 0.85);
+    cursor: pointer;
+    display: inline-flex;
+    font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 1.25;
+    margin: 100PX auto;
+    min-height: 3rem;
+    transition: all 250ms;
+}
+
+.submitBTN:hover,
+.submitBTN:focus {
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.submitBTN:hover {
+  transform: translateY(-1px);
+}
+
+.submitBTN:active {
+  background-color: #F0F0F1;
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  color: rgba(0, 0, 0, 0.65);
+  transform: translateY(0);
+}

@@ -1,0 +1,86 @@
+.nav{
+    border-bottom: 1px solid var(--third-color);
+}
+.content{
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding:30px 100px; 
+    position: relative;
+}
+.content--header{
+    display: flex;
+    align-items: center;
+    gap:5px;
+}
+.content--header img{
+    width:30px;
+    height:30px;
+}
+.content--header span{
+    color:var(--secondary-color);
+    font-size: 1.2em;
+    font-weight: 600;
+}
+.content--contain{
+    display:flex;
+    gap:30px;
+    margin:20px 0;
+}
+.groceryPict{
+    width:450px;
+    height:350px;
+    object-fit: cover;
+    background-color: var(--secondary-color);
+}
+.groceryName, .groceryPrice, .purchaseNum{
+    margin:10px 0;
+}
+.purchaseNum{
+    width:100px;
+    height:50px;
+    border-radius: 20px;
+    background-color: var(--third-color);
+    box-sizing: border-box;
+    padding:0 20px;
+}
+.contain--right{
+    position:relative;
+}
+.purchaseBTN img{
+    width:50px;
+    height: 50px;
+}
+.purchaseBTN{
+    color:var(--secondary-color);
+    font-size: 1.2em;
+    font-weight: 800;
+    background-color: var(--primary-color);
+    display: flex;
+    width:400px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    border-radius: 10px;
+    position:absolute;
+    bottom:0;
+    cursor: pointer;
+}
+@media(max-width:1500px) {
+    .content{
+        padding:30px;
+    }
+    .purchaseBTN{
+        width:auto;
+        white-space: nowrap;
+    }
+}
+@media(max-width:1130px) {
+    .content--contain{
+        flex-direction: column;
+    }
+    .purchaseBTN{
+        position:relative;
+        width:400px;
+    }
+}

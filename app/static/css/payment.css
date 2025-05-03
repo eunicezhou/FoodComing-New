@@ -1,0 +1,161 @@
+.content{
+    margin: 0 200px 30px; 
+}
+.waiting{
+    z-index: 10;
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    display:none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.waiting .title{
+    z-index: 15;
+    font-size: 3em;
+}
+.waiting img{
+    z-index: 15;
+}
+.waiting .shelder{
+    width:100%;
+    position: absolute;
+    top:0;
+}
+.title{
+    margin-top: 20px;
+}
+.order{
+    margin:20px 0;
+}
+.order--content{
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr 1fr 2fr;
+}
+.fakeItem{
+    background: #ececec;
+    background-size: 250px;
+    background-image: -webkit-linear-gradient(left, #ececec 0px, #ddd 40px, #ececec 80px);
+    -webkit-animation: shine-loading-container-items 2s infinite ease-out;
+            animation: shine-loading-container-items 2s infinite ease-out;
+}
+@keyframes shine-loading-container-items {
+    0% {
+        background-position: -100px;
+    }
+    40%, 100% {
+        background-position: 300px;
+    }
+}
+.fakeItem.itemPict{
+    width:300px;
+    height:200px;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+.fakeItem.itemname{
+    height:30px;
+    width:200px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+.fakeItem.count{
+    height:30px;
+    width:100px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+.fakeItem.price{
+    height:30px;
+    width:100px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+.fakeItem.shopname{
+    height:30px;
+    width:200px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+.itemPict, .itemname, .count, .price, .shopname{
+    margin: 0;
+    box-sizing: border-box;
+    padding: 10px;
+    border-bottom: 1px solid var(--secondary-color);
+}
+.itemPict img{
+    width:300px;
+    height:200px;
+    object-fit: cover;
+}
+.consumer--detail div{
+    display: flex;
+    align-items: center;
+}
+.consumer--detail .label{
+    margin: 0;
+}
+.fakeInput{
+    width: 200px;
+    height:38px;
+    border-radius: 10px;
+    margin: 10px;
+    color:var(--primary-color);
+    border: 1px solid var(--text-color);
+    box-sizing: border-box;
+    padding: 5px 10px;
+    display: inline-block;
+}
+.refreshName, .refreshPhone, #address{
+    width: 200px;
+    height:38px;
+    border-radius: 10px;
+    margin: 10px;
+    color:var(--primary-color);
+    border: 1px solid var(--text-color);
+    box-sizing: border-box;
+    padding: 5px 10px;
+}
+.creditCardInfo label{
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+.creditCardInfo div{
+    width:200px;
+    height:38px;
+    border-radius: 10px;
+    margin: 10px;
+    border: 1px solid var(--text-color);
+    box-sizing: border-box;
+    padding: 0 10px;
+    display: inline-block;
+}
+#fakeButton{
+    width:300px;
+    height:40px;
+    color:var(--forth-color);
+    background-color: var(--primary-color);
+    box-sizing: border-box;
+    text-align: center;
+    padding: 5px 0;
+    margin-top: 20px;
+    cursor: pointer;
+}
+@media(max-width:1400px) {
+    .fakeItem.itemPict{
+        width:auto;
+    }
+    .itemPict{
+        width:auto;
+    }
+    .itemPict img{
+        width:100%;
+    }
+    .content{
+        margin: 0 30px;
+    }
+}

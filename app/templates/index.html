@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+{% from 'bootstrap5/form.html' import render_form %}
+{% block title %}FoodComing/home_page{% endblock title %}
+
+{% block style %}
+<style>
+
+.header{
+    display: flex;
+    flex-direction: row;
+    gap:40px;
+    justify-content: center;
+    padding:20px 0;
+    position: relative;
+}
+
+.category{
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+} 
+
+.icon{
+    width:80px;
+    height:80px;
+    background-color: var(--third-color);
+    border-radius: 50%;
+    position:relative;
+}
+
+.icon img{
+    position:absolute;
+    top:10px;
+    left:10px;
+    width:60px;
+}
+
+.catTitle{
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.purchase,.signup,.login,.signout{
+    color: var(--forth-color);
+    font-size: 1.4em;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+</style>
+{% endblock style %}
+
+{% block nav %}
+
+<div class="mx-auto">
+    <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="請輸入搜尋地區" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">搜尋</button>
+    </form>
+</div>
+<ul class="nav justify-content-end">
+    <li class="nav-item">
+        <div class="nav-link purchase title">購物車</div>
+    </li>
+    
+    <li class="nav-item">
+        <div class="nav-link">
+            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#member">
+                <span class="signup title">註冊/</span>
+                <span class="login title">登入</span>
+            </button>
+        </div>
+        <div class="modal fade" id="member" tabindex="-1" role="dialog"
+            aria-labelledby="memberForm" aria-hidden="true">
+
+
+            <div id="login" class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="memberForm">登入會員</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="{{url_for('auth.auth_login')}}">
+                            {{ render_form(login_form) }}
+                            <div>尚未註冊會員?<span id="change_to_register" style="text-decoration: underline; cursor: pointer;" onclick="exchangeAuthForm()">點擊此處</span></div>
+                            <fieldset class="form-group">
+                                <legend></legend>
+                                <div class="bg-light overflow-auto" style=" max-height: 100px;">
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div id="register" class="modal-dialog" role="document" style="display: none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="memberForm">註冊會員</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="{{url_for('auth.auth_register')}}">
+                            {{ render_form(register_form) }}
+                            <div>已註冊會員?<span id="change_to_login" style="text-decoration: underline; cursor: pointer;" onclick="exchangeAuthForm()">點擊此處</span></div>
+                            <fieldset class="form-group">
+                                <legend></legend>
+                                <div class="bg-light overflow-auto" style=" max-height: 100px;">
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </li>
+</ul>
+
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="#">成為合作商家</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">成為外送夥伴</a>
+        </li>
+    </ul>
+</div>
+
+{% endblock nav %}
+
+{% block content %}
+<section class="header">
+    <div class="category">
+        <div class="icon">
+            <img src="../static/image/shop_category/spaghetti.png" alt="主食">
+        </div>
+        <div class="catTitle">主食</div>
+    </div>
+    <div class="category">
+        <div class="icon">
+            <img src="../static/image/shop_category/BBQ.png" alt="燒烤/小吃">
+        </div>
+        <div class="catTitle">燒烤/小吃</div>
+    </div>
+    <div class="category">
+        <div class="icon">
+            <img src="../static/image/shop_category/vegan.png" alt="素食">
+        </div>
+        <div class="catTitle">素食</div>
+    </div>
+    <div class="category">
+        <div class="icon">
+            <img src="../static/image/shop_category/bubble-tea.png" alt="飲品">
+        </div>
+        <div class="catTitle">飲品</div>
+    </div>
+    <div class="category">
+        <div class="icon">
+            <img src="../static/image/shop_category/desert.png" alt="冰品/甜點">
+        </div>
+        <div class="catTitle">冰品/甜點</div>
+    </div>
+    <div class="category">
+        <div class="icon">
+            <img src="../static/image/shop_category/healthy_food.png" alt="健康餐盒">
+        </div>
+        <div class="catTitle">健康餐盒</div>
+    </div>
+    <div class="category">
+        <div class="icon">
+            <img src="../static/image/shop_category/breakfast.png" alt="早餐">
+        </div>
+        <div class="catTitle">早餐</div>
+    </div>
+    <div class="category">
+        <div class="icon">
+            <img src="../static/image/shop_category/bread.png" alt="麵包">
+        </div>
+        <div class="catTitle">麵包</div>
+    </div>
+    <div class="category">
+        <div class="icon">
+            <img src="../static/image/shop_category/grocery.png" alt="生鮮雜貨">
+        </div>
+        <div class="catTitle">生鮮雜貨</div>
+    </div>
+    <div class="category">
+        <div class="icon">
+            <img src="../static/image/shop_category/coffee.png" alt="咖啡廳">
+        </div>
+        <div class="catTitle">咖啡廳</div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    function exchangeAuthForm(){
+        const loginOrRegister = event.target.id;
+        const loginForm = document.getElementById("login");
+        const registerForm = document.getElementById("register");
+        if (loginOrRegister === "change_to_register") {
+            loginForm.style.display = "none";
+            registerForm.style.display = "block";
+        }else if(loginOrRegister === "change_to_login") {
+            registerForm.style.display = "none";
+            loginForm.style.display = "block";
+        }
+    }
+</script>
+{% endblock scripts %}
