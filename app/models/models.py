@@ -16,22 +16,18 @@ class Member(db.Model):
 
     @staticmethod
     def check_exist(
-        account: Optional[str],
-        password: Optional[str], 
-        email: Optional[str]
-    ) -> bool:
+        account: Optional[str]=None, 
+        email: Optional[str]=None):
 
         base_query = Member.query
 
         if account:
             query_data = base_query.filter(Member.account == account)
-        if password:
-            query_data = base_query.filter(Member.password == password)
         if email:
             query_data = base_query.filter(Member.email == email)
 
         exist = query_data.first()
-        return bool(exist)
+        return exist
 
     @staticmethod
     def create_member(account: str, 

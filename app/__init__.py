@@ -1,4 +1,3 @@
-from urllib.parse import urlparse
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap5
 from flask_migrate import Migrate
@@ -35,7 +34,7 @@ def create_app(config_name):
     def index():
         login_form = LoginAuth()
         register_form = RegisterAuth()
-        
+ 
         return render_template("index.html", 
                                register_form=register_form,
                                login_form=login_form)

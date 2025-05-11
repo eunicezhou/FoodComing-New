@@ -6,16 +6,6 @@ class LoginAuth(FlaskForm):
     account = StringField('請輸入帳號')
     password = PasswordField('請輸入密碼')
     submit = SubmitField('登入會員')
-    def process_password(self):
-        origin_password = self.password.data
-        hashed_password = generate_password_hash(origin_password, method='scrypt')
-        self.password.data = hashed_password
-        return self
-
-    def validate(self, extra_validators=None):
-        is_valid = super().validate(extra_validators)
-        self.process_password()
-        return is_valid
 
 class RegisterAuth(FlaskForm):
     account = StringField('請輸入帳號')

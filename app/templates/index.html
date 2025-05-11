@@ -41,7 +41,7 @@
     font-weight: 600;
 }
 
-.purchase,.signup,.login,.signout{
+.purchase,.signup,.login,.logout{
     color: var(--forth-color);
     font-size: 1.4em;
     font-weight: 700;
@@ -63,31 +63,65 @@
     <li class="nav-item">
         <div class="nav-link purchase title">購物車</div>
     </li>
-    
-    <li class="nav-item">
+
+    <li class="nav-item" id="logout_btn" style="display: none;">
         <div class="nav-link">
-            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#member">
+            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#logout">
+                <span class="logout title">登出</span>
+            </button>
+
+            <div class="modal fade" id="logout" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">確認登出</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            確定要登出嗎 ?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" id="confirm_logout" onclick="remove_token()">確認登出</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+    
+    <li class="nav-item"  id="login_btn">
+        <div class="nav-link">
+            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#login_and_register_form">
                 <span class="signup title">註冊/</span>
                 <span class="login title">登入</span>
             </button>
         </div>
-        <div class="modal fade" id="member" tabindex="-1" role="dialog"
-            aria-labelledby="memberForm" aria-hidden="true">
 
+        <div class="modal fade" id="login_and_register_form" tabindex="-1" role="dialog"
+            aria-labelledby="memberForm" aria-hidden="true">
 
             <div id="login" class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="memberForm">登入會員</h5>
                     </div>
+
                     <div class="modal-body">
-                        <form method="post" action="{{url_for('auth.auth_login')}}">
+                        <form id="login_form">
+
                             {{ render_form(login_form) }}
-                            <div>尚未註冊會員?<span id="change_to_register" style="text-decoration: underline; cursor: pointer;" onclick="exchangeAuthForm()">點擊此處</span></div>
+                            <div>尚未註冊會員?
+                                <span id="change_to_register" style="text-decoration: underline; cursor: pointer;" 
+                                onclick="exchangeAuthForm()">點擊此處</span>
+                            </div>
+                            <div class="alert mt-3 mb-0"></div>
+
                             <fieldset class="form-group">
                                 <legend></legend>
-                                <div class="bg-light overflow-auto" style=" max-height: 100px;">
+                                <div class="bg-light overflow-auto" style=" max-height: 100px;"></div>
                             </fieldset>
+
                         </form>
                     </div>
                 </div>
@@ -98,16 +132,22 @@
                     <div class="modal-header">
                         <h5 class="modal-title" id="memberForm">註冊會員</h5>
                     </div>
+
                     <div class="modal-body">
                         <form method="post" action="{{url_for('auth.auth_register')}}">
+                            
                             {{ render_form(register_form) }}
                             <div>已註冊會員?<span id="change_to_login" style="text-decoration: underline; cursor: pointer;" onclick="exchangeAuthForm()">點擊此處</span></div>
+
+                            <div class="alert mt-3 mb-0"></div>
+                            
                             <fieldset class="form-group">
                                 <legend></legend>
-                                <div class="bg-light overflow-auto" style=" max-height: 100px;">
+                                <div class="bg-light overflow-auto" style=" max-height: 100px;"></div>
                             </fieldset>
                         </form>
                     </div>
+                    
                 </div>
             </div>
 
@@ -199,6 +239,38 @@
 
 {% block scripts %}
 <script>
+
+    window.addEventListener("DOMContentLoaded", async()=>{
+        const token = localStorage.getItem("token");
+        let memberData = {};
+        if (token) {
+            let response = await fetch('{{ url_for("auth.check_login") }}', {
+                method: 'GET',
+                headers:{
+                        "Content-Type":"application/json",
+                        "Authorization": `Bearer ${token}`
+                    }
+            });
+            userInfo = await response.json()
+            const now = Math.floor(Date.now() / 1000); // 獲取當前時間秒數
+            if (userInfo.exp < now) {
+                alert("token 已過期，請重新登入");
+                localStorage.removeItem("token");
+                setTimeout(()=>{location.reload();}, 500);
+            }else{
+                logoutBtn = document.getElementById("logout_btn"); 
+                logoutBtn.style.display = "block";
+                loginBtn = document.getElementById("login_btn");
+                loginBtn.style.display = "none";
+            }
+        }
+    });
+
+    function remove_token(){
+        localStorage.removeItem("token");
+        setTimeout(()=>{location.reload();}, 100);
+    }
+
     function exchangeAuthForm(){
         const loginOrRegister = event.target.id;
         const loginForm = document.getElementById("login");
@@ -211,5 +283,45 @@
             loginForm.style.display = "block";
         }
     }
+
+    document.getElementById("login_form").addEventListener("submit", async function(event){
+        event.preventDefault(); // 防止表單預設提交
+
+        const loginForm = document.getElementById("login");
+        const alert = loginForm.querySelector(".alert");
+
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch('{{ url_for("auth.auth_login") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                // 拿到 token，存在 localStorage（或 cookie）中
+                localStorage.setItem('token', result.token);
+
+                // 自行導向或渲染頁面
+                alert.classList.add("alert-success");
+                alert.textContent = "登入成功";
+                setTimeout(()=>{location.reload();}, 500);
+            } else {
+                alert.classList.add("alert-danger");
+                alert.textContent = "登入失敗"
+            }
+        } catch (error) {
+            alert.classList.add("alert-danger");
+            alert.textContent = "發生錯誤，請稍後再試";
+            setTimeout(()=>{location.reload();}, 500);
+        }
+    });
+
 </script>
 {% endblock scripts %}
