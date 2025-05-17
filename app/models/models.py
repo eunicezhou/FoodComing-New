@@ -15,18 +15,9 @@ class Member(db.Model):
     store = db.relationship("Store", back_populates="member", uselist=False)
 
     @staticmethod
-    def check_exist(
-        account: Optional[str]=None, 
-        email: Optional[str]=None):
+    def check_exist(email: str):
+        exist = Member.query.filter(Member.email == email).first()
 
-        base_query = Member.query
-
-        if account:
-            query_data = base_query.filter(Member.account == account)
-        if email:
-            query_data = base_query.filter(Member.email == email)
-
-        exist = query_data.first()
         return exist
 
     @staticmethod
