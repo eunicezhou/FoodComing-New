@@ -1,4 +1,3 @@
-from typing import Optional
 from sqlalchemy.ext.mutable import MutableDict
 from sqlalchemy.dialects.postgresql import JSONB, ARRAY
 
@@ -14,25 +13,26 @@ class Member(db.Model):
 
     store = db.relationship("Store", back_populates="member", uselist=False)
 
-    @staticmethod
-    def check_exist(email: str):
-        exist = Member.query.filter(Member.email == email).first()
+    @classmethod
+    def check_exist(cls, **kwargs):
 
-        return exist
+        exist = cls.query
 
-    @staticmethod
-    def create_member(account: str, 
-                      password: str, 
-                      email: str, 
-                      phone: str) -> None:
+        if kwargs.get("email"):
+            exist = exist.filter(cls.email == kwargs["email"])
+
+        return exist.first()
+
+    @classmethod
+    def create_member(cls, commit: bool, **kwargs):
         
-        new_member = Member(
-            account=account,
-            password=password,
-            email=email,
-            phone=phone
-        )
+        new_member = cls(**kwargs)
         db.session.add(new_member)
+
+        if commit:
+            db.session.commit()
+        
+        return new_member
 
 class Store(db.Model):
     __tablename__ = "stores"

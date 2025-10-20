@@ -37,7 +37,7 @@ def auth_login():
     email=data.get('email')
     password=data.get('password')   
 
-    existed: Member = Member.check_exist(email)
+    existed: Member = Member.check_exist(email=email)
 
     if  not existed:
         return jsonify({"msg": "Account not exist."}), 401

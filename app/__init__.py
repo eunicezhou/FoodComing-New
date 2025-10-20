@@ -9,6 +9,7 @@ from config import config
 
 bootstrap = Bootstrap5()
 db = SQLAlchemy()
+migrate = Migrate()
 
 # Error Handler Function
 def internal_server_error(e):
@@ -28,6 +29,7 @@ def create_app(config_name):
     # 初始化套件
     bootstrap.init_app(app)
     db.init_app(app)
+    migrate.init_app(app, db)
 
     # 註冊 blueprints
     @app.get('/')
