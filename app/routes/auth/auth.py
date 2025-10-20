@@ -68,7 +68,7 @@ def auth_register():
     form = RegisterAuth()
 
     if not form.validate_on_submit():
-        return redirect('/')
+        return jsonify({"msg": "Invalid form data"}), 400
     
     data = form.data
     account=data.get('account')
@@ -76,16 +76,16 @@ def auth_register():
     email=data.get('email')
     phone=data.get('phone_num')
 
-    existed = Member.check_exist(email)
+    existed = Member.check_exist(email=email)
+
     if existed:
         return jsonify({"msg": "帳號已存在"}), 401
-    
     Member.create_member(
+        commit=True,
         account=account,
         password=password,
         email=email,
         phone=phone 
     )
-    db.session.commit()
 
     return jsonify({"msg": "成功註冊會員，請登入帳號"}), 200

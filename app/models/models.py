@@ -24,7 +24,7 @@ class Member(db.Model):
         return exist.first()
 
     @classmethod
-    def create_member(cls, commit: bool, **kwargs):
+    def create_member(cls, commit: bool=False, **kwargs):
         
         new_member = cls(**kwargs)
         db.session.add(new_member)

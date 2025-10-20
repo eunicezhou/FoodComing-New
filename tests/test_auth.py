@@ -1,8 +1,7 @@
-from flask import json, url_for
+from flask import url_for
 from werkzeug.security import generate_password_hash
 
 from app.models.models import Member
-from app import db
 from tests.basic import TestBase
 
 
@@ -25,6 +24,26 @@ class TestAuth(TestBase):
                         phone="0988888888"
                     )
         return new_member
+    
+    def check_member_in_db(self, email: str):
+        member = Member.check_exist(email=email)
+        return member is not None
+    
+    # test auth_register function
+    def test_auth_register(self):
+        register_data  = {
+            "account": "test_register",
+            "password": "test_register",
+            "email": "test_register@gmail.com",
+            "phone_num:": "0977777777",
+            "submit": "true"
+        }
+        response = self.client.post(url_for("auth.auth_register"), 
+                        data=register_data
+                        )
+
+        assert response.status_code == 200
+        self.assertTrue(self.check_member_in_db(email="test_register@gmail.com"))
     
     # test auth_login function
     def test_auth_login(self):
