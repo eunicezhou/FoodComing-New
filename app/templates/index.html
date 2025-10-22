@@ -134,11 +134,13 @@
                     </div>
 
                     <div class="modal-body">
-                        <form method="post" action="{{url_for('auth.auth_register')}}">
+                        <form id="register_form">
                             
                             {{ render_form(register_form) }}
-                            <div>已註冊會員?<span id="change_to_login" style="text-decoration: underline; cursor: pointer;" onclick="exchangeAuthForm()">點擊此處</span></div>
-
+                            <div>已註冊會員?
+                                <span id="change_to_login" style="text-decoration: underline; cursor: pointer;" 
+                                onclick="exchangeAuthForm()">點擊此處</span>
+                            </div>
                             <div class="alert mt-3 mb-0"></div>
                             
                             <fieldset class="form-group">
@@ -314,11 +316,48 @@
                 setTimeout(()=>{location.reload();}, 500);
             } else {
                 alert.classList.add("alert-danger");
-                alert.textContent = "登入失敗"
+                alert.textContent = result.msg
             }
         } catch (error) {
             alert.classList.add("alert-danger");
-            alert.textContent = "發生錯誤，請稍後再試";
+            alert.textContent = `發生未知的錯誤，錯誤訊息: "${error}"。請稍後再嘗試`;
+            setTimeout(()=>{location.reload();}, 500);
+        }
+    });
+
+    document.getElementById("register_form").addEventListener("submit", async function(event){
+        event.preventDefault(); // 防止表單預設提交
+
+        const registerForm = document.getElementById("register");
+        const alert = registerForm.querySelector(".alert");
+
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch('{{ url_for("auth.auth_register") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            console.log(result);
+
+            if (response.ok) {
+                // 自行導向或渲染頁面
+                alert.classList.add("alert-success");
+                alert.textContent = result.msg;
+                setTimeout(()=>{location.reload();}, 500);
+            } else {
+                alert.classList.add("alert-danger");
+                alert.textContent = result.msg
+            }
+        } catch (error) {
+            alert.classList.add("alert-danger");
+            alert.textContent = `發生未知的錯誤，錯誤訊息: "${error}"。請稍後再嘗試`;
             setTimeout(()=>{location.reload();}, 500);
         }
     });

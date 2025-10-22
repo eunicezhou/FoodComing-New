@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from typing import Dict, List
-from flask import Blueprint, jsonify, redirect, request, url_for, current_app
+from flask import Blueprint, jsonify, redirect, request, current_app
 from werkzeug.security import check_password_hash
 
 from app import db
@@ -34,17 +34,17 @@ def auth_login():
         return jsonify({"msg": "Invalid form data"}), 400
     
     data = form.data
-    account=data.get('account')
+    email=data.get('email')
     password=data.get('password')   
 
-    existed: Member = Member.check_exist(account=account)
+    existed: Member = Member.check_exist(email=email)
 
     if  not existed:
         return jsonify({"msg": "Account not exist."}), 401
 
     password_correct = check_password_hash(existed.password, password)
     if not password_correct:
-        return jsonify({"msg": "Invalid credentials"}), 401
+        return jsonify({"msg": "帳號或密碼錯誤"}), 401
     
     token_key = current_app.config.get("SECRET_KEY")
     encoding_algorithm = current_app.config.get("ALGORITHM") 
@@ -60,7 +60,7 @@ def auth_login():
     encode_token: Dict = encoding(user_info=user_info, token_key=token_key, 
                             algorithm=encoding_algorithm)
     
-    return jsonify(encode_token)
+    return jsonify(encode_token), 200
     
 @auth.post('/register')
 def auth_register():
@@ -68,7 +68,7 @@ def auth_register():
     form = RegisterAuth()
 
     if not form.validate_on_submit():
-        return redirect('/')
+        return jsonify({"msg": "Invalid form data"}), 400
     
     data = form.data
     account=data.get('account')
@@ -77,18 +77,15 @@ def auth_register():
     phone=data.get('phone_num')
 
     existed = Member.check_exist(email=email)
+
     if existed:
-        return redirect('/')
-    
+        return jsonify({"msg": "帳號已存在"}), 401
     Member.create_member(
+        commit=True,
         account=account,
         password=password,
         email=email,
         phone=phone 
     )
-    db.session.commit()
 
-    return redirect('/')
-    
-
-        
+    return jsonify({"msg": "成功註冊會員，請登入帳號"}), 200

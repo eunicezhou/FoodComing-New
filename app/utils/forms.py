@@ -3,7 +3,7 @@ from wtforms import EmailField, PasswordField, StringField, SubmitField, TelFiel
 from werkzeug.security import generate_password_hash
 
 class LoginAuth(FlaskForm):
-    account = StringField('請輸入帳號')
+    email = StringField('請輸入會員信箱')
     password = PasswordField('請輸入密碼')
     submit = SubmitField('登入會員')
 
