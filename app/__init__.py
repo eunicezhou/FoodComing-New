@@ -18,13 +18,13 @@ def internal_server_error(e):
 def not_found_error(e):
     pass
 
-def create_app(config_name):
+def create_app():
     app = Flask(__name__)
 
     # TODO: 建立 gunicorn logger 以蒐集系統錯誤問題
 
     # 載入 config 設定
-    app.config.from_object(config[config_name])
+    app.config.from_object(config)
 
     # 初始化套件
     bootstrap.init_app(app)
