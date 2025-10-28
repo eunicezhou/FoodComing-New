@@ -32,8 +32,10 @@ jobs:
     - name: Run tests
       env:
         ENVIRONMENT: test
+        ENV_TEST_BASE64: ${{ secrets.ENV_TEST }}
         FLASK_APP: foodcoming.py
       run: |
-        echo "${{ secrets.ENV_TEST }}" > .env.test
+        echo "$ENV_TEST_BASE64" | base64 --decode > .env.test
+        cat .env.test
+        export ENVIRONMENT="$ENVIRONMENT"
         flask test
-
