@@ -34,5 +34,6 @@ jobs:
         ENVIRONMENT: test
         FLASK_APP: foodcoming.py
       run: |
+        echo "${{ secrets.ENV_TEST }}" > .env.test
         flask test
 
