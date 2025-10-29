@@ -39,14 +39,20 @@ jobs:
         echo "$ENV_LOCAL_BASE64" | base64 --decode > .env.local || { echo "Failed to decode .env.local"; exit 1; }
         ls -l .env.*
         head -n 5 .env.test
-        
-    - name: upload artifacts
+  
+    - name: Upload env files as artifact
       uses: actions/upload-artifact@v4
       with:
         name: env-files
         path: |
           .env.test
           .env.local
+
+    - name: Debug workspace path
+      run: |
+        pwd
+        echo "Listing all files under workspace:"
+        find . -maxdepth 2 -type f
 
   test:
     runs-on: ubuntu-latest
