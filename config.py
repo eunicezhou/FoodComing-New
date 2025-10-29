@@ -13,7 +13,8 @@ class Config:
     SERVER_NAME = os.getenv("SERVER_NAME")
 
     # sqlalchemy engine setting
-    SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI")
+    SQLALCHEMY_DATABASE_URI = f"""postgresql://{os.getenv("SQLALCHEMY_USERNAME")}:
+                               {os.getenv("SQLALCHEMY_PASSWORD")}@127.0.0.1:5432/{os.getenv("SQLALCHEMY_DB")}"""
     SQLALCHEMY_ENGINE_OPTIONS = {
         "pool_pre_ping": os.getenv("SQLALCHEMY_POOL_PRE_PING"),
         "pool_recycle": os.getenv("SQLALCHEMY_POOL_RECYCLE"),
