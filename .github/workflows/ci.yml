@@ -34,8 +34,11 @@ jobs:
         ENV_TEST_BASE64: ${{ secrets.ENV_TEST }}
         ENV_LOCAL_BASE64: ${{ secrets.ENV_LOCAL }}
       run: |
-        echo "$ENV_TEST_BASE64" | base64 --decode > .env.test
-        echo "$ENV_LOCAL_BASE64" | base64 --decode > .env.local
+        set -e
+        echo "$ENV_TEST_BASE64" | base64 --decode > .env.test || { echo "Failed to decode .env.test"; exit 1; }
+        echo "$ENV_LOCAL_BASE64" | base64 --decode > .env.local || { echo "Failed to decode .env.local"; exit 1; }
+        ls -l .env.*
+        head -n 5 .env.test
         
     - name: upload artifacts
       uses: actions/upload-artifact@v4
