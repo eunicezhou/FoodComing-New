@@ -47,6 +47,7 @@ jobs:
         path: |
           .env.test
           .env.local
+        include-hidden-files: true
 
     - name: Debug workspace path
       run: |
