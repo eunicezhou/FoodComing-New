@@ -5,7 +5,7 @@ from app import create_app, db
 
 class TestBase(TestCase):
     def setUp(self):
-        self.app = create_app(config_name="test")
+        self.app = create_app()
         self.app_context = self.app.app_context()
         self.app_context.push()
 

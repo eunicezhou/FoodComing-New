@@ -35,13 +35,12 @@ class TestAuth(TestBase):
             "account": "test_register",
             "password": "test_register",
             "email": "test_register@gmail.com",
-            "phone_num:": "0977777777",
+            "phone_num": "0977777777",
             "submit": "true"
         }
         response = self.client.post(url_for("auth.auth_register"), 
                         data=register_data
                         )
-
         assert response.status_code == 200
         self.assertTrue(self.check_member_in_db(email="test_register@gmail.com"))
     

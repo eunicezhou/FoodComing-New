@@ -4,7 +4,7 @@ import os
 
 from app import create_app, db
 
-app = create_app(os.environ.get('FLASK_CONFIG') or 'default')
+app = create_app()
 migrate = Migrate(app, db)
 
 @app.cli.command(name="test")
