@@ -81,4 +81,5 @@ jobs:
         FLASK_APP: foodcoming.py
       run: |
         export ENVIRONMENT="$ENVIRONMENT"
+        export FLASK_APP="$FLASK_APP"
         flask test
