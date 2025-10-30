@@ -7,8 +7,20 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  build_and_test:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: ${{ secrets.SQLALCHEMY_PASSWORD }}
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
 
     steps:
     - name: Checkout code
@@ -37,38 +49,6 @@ jobs:
         echo "$ENV_TEST_BASE64" | base64 --decode > .env.test || { echo "Failed to decode .env.test"; exit 1; }
         echo "$ENV_LOCAL_BASE64" | base64 --decode > .env.local || { echo "Failed to decode .env.local"; exit 1; }
   
-    - name: Upload env files as artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: env-files
-        path: |
-          .env.test
-          .env.local
-        include-hidden-files: true
-
-  test:
-    runs-on: ubuntu-latest
-    needs: build 
-
-    services:
-      postgres:
-        image: postgres:16
-        env:
-          POSTGRES_PASSWORD: ${{ secrets.SQLALCHEMY_PASSWORD }}
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-
-    steps:
-    - name: Download env file
-      uses: actions/download-artifact@v4
-      with:
-        name: env-files
-
     - name: Load env variables from .env.test
       run: |
         set -o allexport
@@ -80,6 +60,4 @@ jobs:
         ENVIRONMENT: test
         FLASK_APP: foodcoming.py
       run: |
-        export ENVIRONMENT="$ENVIRONMENT"
-        export FLASK_APP="$FLASK_APP"
         flask test
