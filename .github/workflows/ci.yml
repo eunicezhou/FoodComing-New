@@ -55,6 +55,20 @@ jobs:
         source .env.test
         set +o allexport
 
+    - name: Create database
+      run: |
+        psql -h 127.0.0.1 -U postgres -c "CREATE DATABASE foodcoming_test;"
+      env:
+        PGPASSWORD: ${{ secrets.SQLALCHEMY_PASSWORD }}
+
+    - name: Run migrations
+      env:
+        ENVIRONMENT: test
+        FLASK_APP: foodcoming.py
+      run: |
+        flask db upgrade
+
+
     - name: Run tests
       env:
         ENVIRONMENT: test
