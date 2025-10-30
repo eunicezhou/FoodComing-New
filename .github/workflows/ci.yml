@@ -34,11 +34,8 @@ jobs:
         ENV_TEST_BASE64: ${{ secrets.ENV_TEST }}
         ENV_LOCAL_BASE64: ${{ secrets.ENV_LOCAL }}
       run: |
-        set -e
         echo "$ENV_TEST_BASE64" | base64 --decode > .env.test || { echo "Failed to decode .env.test"; exit 1; }
         echo "$ENV_LOCAL_BASE64" | base64 --decode > .env.local || { echo "Failed to decode .env.local"; exit 1; }
-        ls -l .env.*
-        head -n 5 .env.test
   
     - name: Upload env files as artifact
       uses: actions/upload-artifact@v4
@@ -48,12 +45,6 @@ jobs:
           .env.test
           .env.local
         include-hidden-files: true
-
-    - name: Debug workspace path
-      run: |
-        pwd
-        echo "Listing all files under workspace:"
-        find . -maxdepth 2 -type f
 
   test:
     runs-on: ubuntu-latest
